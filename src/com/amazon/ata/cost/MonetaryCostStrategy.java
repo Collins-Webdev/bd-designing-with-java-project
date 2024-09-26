@@ -11,10 +11,10 @@ import java.util.Map;
 /**
  * Considers both material cost and labor cost to calculate the total cost of a ShipmentOption.
  */
-public class MonetaryCostStrategy implements CostStrategy {
 
-    private final Map<Material, BigDecimal> materialCostPerGram;
+public class MonetaryCostStrategy implements CostStrategy {
     private static final BigDecimal LABOR_COST = BigDecimal.valueOf(0.43);
+    private final Map<Material, BigDecimal> materialCostPerGram;
 
     /**
      * Initializes a MonetaryCostStrategy.
