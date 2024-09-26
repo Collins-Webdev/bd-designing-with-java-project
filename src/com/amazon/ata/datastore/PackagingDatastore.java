@@ -1,9 +1,6 @@
 package com.amazon.ata.datastore;
 
-import com.amazon.ata.types.FcPackagingOption;
-import com.amazon.ata.types.FulfillmentCenter;
-import com.amazon.ata.types.Material;
-import com.amazon.ata.types.Packaging;
+import com.amazon.ata.types.*;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -15,7 +12,7 @@ import java.util.List;
 public class PackagingDatastore {
 
     /**
-     * The stored pairs of fulfillment centers to the packaging options they support.
+     * The stored pairs of fulfillment centers and packaging options.
      */
     private final List<FcPackagingOption> fcPackagingOptions = Arrays.asList(
             createFcPackagingOption("IND1", Material.CORRUGATE, "10", "10", "10"),
@@ -32,15 +29,13 @@ public class PackagingDatastore {
     );
 
     /**
-     * Create fulfillment center packaging option from provided parameters.
+     * Create a packaging option from provided parameters.
      */
     private FcPackagingOption createFcPackagingOption(String fcCode, Material material,
                                                       String length, String width, String height) {
         FulfillmentCenter fulfillmentCenter = new FulfillmentCenter(fcCode);
-        Packaging packaging = new Packaging(material, new BigDecimal(length), new BigDecimal(width),
-                new BigDecimal(height));
-
-        return new FcPackagingOption(fulfillmentCenter, packaging);
+        Box box = new Box(material, new BigDecimal(length), new BigDecimal(width), new BigDecimal(height));
+        return new FcPackagingOption(fulfillmentCenter, box);
     }
 
     public List<FcPackagingOption> getFcPackagingOptions() {

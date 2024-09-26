@@ -1,21 +1,14 @@
 package com.amazon.ata.types;
 
-import java.math.BigDecimal;
+import com.amazon.ata.cost.Currency;
+
 import java.util.Objects;
 
-/**
- * The cost associated with a particular ShipmentOption as calculated by a specific strategy.
- */
 public class ShipmentCost implements Comparable<ShipmentCost> {
-    private ShipmentOption shipmentOption;
-    private BigDecimal cost;
+    private final ShipmentOption shipmentOption;
+    private final Currency cost;
 
-    /**
-     * Initializes a ShipmentCost object.
-     * @param shipmentOption - the ShipmentOption the cost was calculated for
-     * @param cost - the cost of using the provided ShipmentOption
-     */
-    public ShipmentCost(ShipmentOption shipmentOption, BigDecimal cost) {
+    public ShipmentCost(ShipmentOption shipmentOption, Currency cost) {
         this.shipmentOption = shipmentOption;
         this.cost = cost;
     }
@@ -24,7 +17,7 @@ public class ShipmentCost implements Comparable<ShipmentCost> {
         return shipmentOption;
     }
 
-    public BigDecimal getCost() {
+    public Currency getCost() {
         return cost;
     }
 
@@ -33,25 +26,21 @@ public class ShipmentCost implements Comparable<ShipmentCost> {
         if (this == o) {
             return true;
         }
-
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-
-        ShipmentCost other = (ShipmentCost) o;
-        // Using compareTo due to BigDecimal's equal's method not returning true if the scales of the BigDecimals are
-        // different. The compareTo returns zero if the values are the same, and ignores scale. This will make
-        // ShipmentCost#equals consistent with ShipmentCost#compareTo
-        return cost.compareTo(other.cost) == 0;
+        ShipmentCost that = (ShipmentCost) o;
+        return Objects.equals(shipmentOption, that.shipmentOption) &&
+                Objects.equals(cost, that.cost);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cost.doubleValue());
+        return Objects.hash(shipmentOption, cost);
     }
 
     @Override
     public int compareTo(ShipmentCost other) {
-        return cost.compareTo(other.cost);
+        return this.cost.getAmount().compareTo(other.cost.getAmount());
     }
 }

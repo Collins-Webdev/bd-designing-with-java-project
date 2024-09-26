@@ -19,7 +19,7 @@ public class PackagingDAO {
     /**
      * A list of fulfillment centers with a packaging options they provide.
      */
-    private List<FcPackagingOption> fcPackagingOptions;
+    private static List<FcPackagingOption> fcPackagingOptions;
 
     /**
      * Instantiates a PackagingDAO object.
@@ -40,7 +40,7 @@ public class PackagingDAO {
      * @throws UnknownFulfillmentCenterException if the fulfillmentCenter is not in the fcPackagingOptions list
      * @throws NoPackagingFitsItemException if the item doesn't fit in any packaging at the FC
      */
-    public List<ShipmentOption> findShipmentOptions(Item item, FulfillmentCenter fulfillmentCenter)
+    public static List<ShipmentOption> findShipmentOptions(Item item, FulfillmentCenter fulfillmentCenter)
             throws UnknownFulfillmentCenterException, NoPackagingFitsItemException {
 
         // Check all FcPackagingOptions for a suitable Packaging in the given FulfillmentCenter

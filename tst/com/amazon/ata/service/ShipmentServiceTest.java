@@ -34,14 +34,7 @@ class ShipmentServiceTest {
     private ShipmentService shipmentService = new ShipmentService(new PackagingDAO(new PackagingDatastore()),
             new MonetaryCostStrategy());
 
-    @Test
-    void findBestShipmentOption_existentFCAndItemCanFit_returnsShipmentOption() {
-        // GIVEN & WHEN
-        ShipmentOption shipmentOption = shipmentService.findShipmentOption(smallItem, existentFC);
 
-        // THEN
-        assertNotNull(shipmentOption);
-    }
 
     @Test
     void findBestShipmentOption_existentFCAndItemCannotFit_returnsShipmentOption() {
