@@ -47,8 +47,12 @@ public class Box extends Packaging {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o){ return true;}
-        if (o == null || getClass() != o.getClass()){ return false;}
+        if (this == o){
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()){
+            return false;
+        }
         Box box = (Box) o;
         return Objects.equals(length, box.length) &&
                 Objects.equals(width, box.width) &&
