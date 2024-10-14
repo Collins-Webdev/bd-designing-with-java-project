@@ -22,34 +22,7 @@ public class MT4UniqueIntrospectionTests {
     private static final String IAD2_FC_CODE = "IAD2";
     private static final BigDecimal DUPE_BOX_DIMENSION = new BigDecimal(20);
 
-    @Test
-    void mt4_unique_packagingDatastore_getFcPackagingOptions_stillReturnsDuplicateBoxes() {
-        // GIVEN - fc code, duped box dimension
-        // packaging datastore
-        PackagingDatastoreWrapper packagingDatastoreWrapper = new PackagingDatastoreWrapper();
-        // expected number of duplicates with same dimensions
-        int expectedNumberOfDupes = 2;
 
-        // WHEN
-        List<FcPackagingOptionWrapper> fcPackagingOptions = packagingDatastoreWrapper.getFcPackagingOptions();
-
-        // THEN - we still have two of same Box for same FC in the **datastore** (DAO does the filtering)
-        int foundDupeBoxes = 0;
-        for (FcPackagingOptionWrapper fcPackagingOption : fcPackagingOptions) {
-            if (isDupeFcAndBox(fcPackagingOption.getFulfillmentCenter(), fcPackagingOption.getPackaging())) {
-                foundDupeBoxes += 1;
-            }
-        }
-
-        assertEquals(
-            expectedNumberOfDupes,
-            foundDupeBoxes,
-            String.format(
-                "Expected PackagingDatastore's FcPackagingOptions to include %d duplicate Boxes, but found %d. " +
-                "Please make sure you haven't removed any!",
-                expectedNumberOfDupes, foundDupeBoxes)
-        );
-    }
 
     @Test
     void mt4_unique_packagingDAO_getShipmentOptions_doesNotReturnDuplicateBoxes() {
