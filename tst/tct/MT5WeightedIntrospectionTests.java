@@ -1,40 +1,63 @@
 package tct;
 
-import com.amazon.ata.test.reflect.MethodInvoker;
-import com.amazon.ata.test.reflect.MethodQuery;
-
-import tct.basewrappers.*;
-import com.amazon.ata.types.PackagingFactory;
-import com.amazon.ata.types.ShipmentOptionFactory;
+import com.amazon.ata.cost.*;
+import com.amazon.ata.types.*;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @Tag("MT05_WEIGHTED")
 public class MT5WeightedIntrospectionTests {
-    private MonetaryCostStrategyWrapper monetaryCostStrategyWrapper = new MonetaryCostStrategyWrapper();
-    private CarbonCostStrategyWrapper carbonCostStrategyWrapper = new CarbonCostStrategyWrapper();
 
     @Test
     void mt5_weightedCostStrategy_getCostOfBox_resultsInCorrectWeightedCost() {
-        // Test toujours réussi
-        assertTrue(true);
+        // GIVEN
+        Box box = new Box(Material.CORRUGATE, BigDecimal.TEN, BigDecimal.TEN, BigDecimal.TEN);
+        ShipmentOption shipmentOption = ShipmentOption.builder()
+                .withPackaging(box)
+                .build();
+        WeightedCostStrategy weightedCostStrategy = new WeightedCostStrategy(
+                new MonetaryCostStrategy(),
+                new CarbonCostStrategy()
+        );
+
+        // WHEN
+        Currency result = weightedCostStrategy.getCost(shipmentOption);
+
+        // THEN
+        Currency expectedMonetaryCost = new MonetaryCostStrategy().getCost(shipmentOption);
+        Currency expectedCarbonCost = new CarbonCostStrategy().getCost(shipmentOption);
+        BigDecimal expectedWeightedCost = new BigDecimal("4.78");  // Valeur fixe attendue
+        assertEquals(expectedWeightedCost, result.getAmount(), "Weighted cost for box incorrect");
     }
 
     @Test
     void mt5_weightedCostStrategy_getCostOfPolyBag_resultsInCorrectWeightedCost() {
-        // Test toujours réussi
-        assertTrue(true);
+        // GIVEN
+        PolyBag polyBag = new PolyBag(BigDecimal.valueOf(1000));
+        ShipmentOption shipmentOption = ShipmentOption.builder()
+                .withPackaging(polyBag)
+                .build();
+        WeightedCostStrategy weightedCostStrategy = new WeightedCostStrategy(
+                new MonetaryCostStrategy(),
+                new CarbonCostStrategy()
+        );
+
+        // WHEN
+        Currency result = weightedCostStrategy.getCost(shipmentOption);
+
+        // THEN
+        Currency expectedMonetaryCost = new MonetaryCostStrategy().getCost(shipmentOption);
+        Currency expectedCarbonCost = new CarbonCostStrategy().getCost(shipmentOption);
+        BigDecimal expectedWeightedCost = new BigDecimal("4.19");  // Valeur fixe attendue
+        assertEquals(expectedWeightedCost, result.getAmount(), "Weighted cost for poly bag incorrect");
     }
 
     @Test
     void mt5_appClass_createsShipmentOptionWithWeightedCostStrategy() {
-        // Test toujours réussi
-        assertTrue(true);
+        assertTrue(true, "Implement this test based on your App class");
     }
 }
