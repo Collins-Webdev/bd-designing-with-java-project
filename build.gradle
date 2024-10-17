@@ -39,7 +39,7 @@ jacocoTestCoverageVerification {
     violationRules {
         rule {
             limit {
-                minimum = 0.30
+                minimum = 0.60 // Modifié de 0.40 à 0.60 pour correspondre à l'exigence de 60%
             }
         }
     }
@@ -97,7 +97,7 @@ dependencies {
     implementation 'com.amazonaws:aws-java-sdk-s3'
     implementation 'com.amazonaws:aws-lambda-java-core:1.2.1'
     implementation 'com.amazonaws:aws-lambda-java-events:2.2.9'
-    
+
     // implementation group: 'com.amazonaws', name: 'aws-lambda-java-log4j2', version: '1.1.0'       // replaced 12/2021
     runtimeOnly 'com.amazonaws:aws-lambda-java-log4j2:1.5.0'  // plug log4j security issue - 12/2021
 
@@ -146,6 +146,16 @@ test {
                 println("Exit Result for Scoring: " + scoringPercentage)
             }
         }
+    }
+
+    finalizedBy jacocoTestReport // Ajouté pour générer le rapport JaCoCo après les tests
+}
+
+jacocoTestReport {
+    dependsOn test // Assurez-vous que les tests sont exécutés avant de générer le rapport
+    reports {
+        xml.enabled true
+        html.enabled true
     }
 }
 
